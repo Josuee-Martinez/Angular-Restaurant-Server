@@ -57,4 +57,31 @@ router.delete('/:id', (req, res) => {
   })
 })
 
+router.put('/:id', (req, res) => {
+  let newId = req.params.id;
+  let newName = req.body.restaurant.name;
+  let newTypeOfFood = req.body.restaurant.typeOfFood;
+  let newReview = req.body.restaurant.review;
+  let newRating = req.body.restaurant.rating;
+  let newOwner = req.user.id
+
+  Restaurant.update({
+    name: newName,
+    typeOfFood: newTypeOfFood,
+    review: newReview,
+    rating: newRating,
+    owner: newOwner
+  }, {where: {id: newId}}).then(function updated() {
+    res.json({
+      name: newName,
+      typeOfFood: newTypeOfFood,
+      review: newReview,
+      rating: newRating,
+      owner: newOwner
+    })
+  }, function updateError(err) {
+    res.send(500, err.message)
+  })
+})
+
 module.exports = router;
