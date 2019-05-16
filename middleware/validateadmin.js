@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
     else {
       jwt.verify(sessionToken, process.env.JWT_SECRET, (err, decoded) => {
         if(decoded) {
-          db.User.findOne({where: {id: decoded.id}}).then(user => {
+          db.Admin.findOne({where: {id: decoded.id}}).then(user => {
             req.user = user;
             next();
           }, () => {

@@ -5,12 +5,23 @@ const sequelize = new Sequelize('Angular-Project', 'postgres', 'unixpgadmin13', 
   dialect: 'postgres'
 });
 
+
 sequelize.authenticate().then(() => console.log('Connected'), (err) => console.log(err));
 
-// const User = sequellize.import('./models/user');
+const db = {};
 
-// //associate users with other table
-// User.hasOne(Book);
-// Book.belongsTo(User);
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
-module.exports = sequelize;
+db.User = require('./models/user')(sequelize, Sequelize);
+db.Restaurant = require('./models/restaurant')(sequelize, Sequelize);
+db.Admin = require('./models/admin')(sequelize, Sequelize);
+
+
+db.User.hasMany(db.Restaurant, {onDelete: 'cascade' });
+db.Restaurant.belongsTo(db.User, { onDelete: 'cascade' });
+
+module.exports = {
+  db: db,
+  sequelize: sequelize
+};

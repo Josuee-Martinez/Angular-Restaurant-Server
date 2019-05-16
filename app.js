@@ -3,7 +3,8 @@ let express = require('express');
 let app = express();
 let user = require('./controllers/usercontroller');
 let restaurant = require('./controllers/restaurantcontroller');
-let sequelize = require('./db');
+let admin = require('./controllers/admincontroller');
+let sequelize = require('./db').sequelize;
 let bodyParser = require('body-parser');
 
 app.listen(3000, () => {
@@ -17,6 +18,9 @@ app.use(bodyParser.json());
 app.use(require('./middleware/headers'));
 
 app.use('/user', user);
+
+app.use('/admin', admin);
+
 
 //bellow this line are validated routes
 
