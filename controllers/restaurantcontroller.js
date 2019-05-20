@@ -52,7 +52,7 @@ router.delete('/:id', (req, res) => {
   let data = req.params.id;
   let userId = req.user.id;
 
-  db.Restaurant.destroy({where: {id: data, owner: userId}}).then(function deleteSuccess() {
+  db.Restaurant.destroy({where: {id: data}}).then(function deleteSuccess() {
     res.send('Restaurant has been deleted');
   }, function deleteError(err) {
     res.send(500, err.message)
@@ -86,27 +86,26 @@ router.put('/:id', (req, res) => {
   })
 })
 
-router.get('/getall', (req, res) => {
-  db.Restaurant.findAll({
-    attributes: ['id', 'name', 'typeOfFood', 'review', 'rating', 'userId']
-  }).then(function success(data) {
-    console.log(data);
-    res.json(data)
+// router.get('/getall', (req, res) => {
+//   db.Restaurant.findAll({
+//     attributes: ['id', 'name', 'typeOfFood', 'review', 'rating', 'userId']
+//   }).then(function success(data) {
+//     console.log(data);
+//     res.json(data)
     
-  }).then(function err(err) {
-    res.send(500, err.message)
-  })
-})
-
-// router.delete('deleteall/:id', (req, res) => {
-//   let data = req.params.id;
-//   let userId = req.body.restaurant.userId;
-
-//   db.Restaurant.destroy({where: {id: data, owner: userId}}).then(function deleteSuccess() {
-//     res.send('Restaurant has been deleted');
-//   }, function deleteError(err) {
+//   }).then(function err(err) {
 //     res.send(500, err.message)
 //   })
 // })
+
+router.delete('/deleteadmin/:id', (req, res) => {
+  let data = req.params.id;
+
+  db.Restaurant.destroy({where: {id: data}}).then(function deleteSuccess() {
+    res.send('Restaurant has been deleted');
+  }, function deleteError(err) {
+    res.send(500, err.message)
+  })
+})
 
 module.exports = router;

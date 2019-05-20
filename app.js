@@ -4,6 +4,7 @@ let app = express();
 let user = require('./controllers/usercontroller');
 let restaurant = require('./controllers/restaurantcontroller');
 let admin = require('./controllers/admincontroller');
+
 let sequelize = require('./db').sequelize;
 let bodyParser = require('body-parser');
 
@@ -22,7 +23,8 @@ app.use('/user', user);
 app.use('/admin', admin);
 
 
-//bellow this line are validated routes
+//bellow this line are validated route
+
 
 app.use(require('./middleware/validate-session'));
 
